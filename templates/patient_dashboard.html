@@ -1,0 +1,8 @@
+<h2>Patient Dashboard</h2>
+<p>Welcome {{ user.first_name }} {{ user.last_name }}</p>
+<p>Email: {{ user.email }}</p>
+<p>Address: {{ user.address_line1 }}, {{ user.city }}, {{ user.state }} - {{ user.pincode }}</p>
+{% if user.profile_picture %}
+    <img src="{{ user.profile_picture.url }}" width="150">
+{% endif %}
+<a href="{% url 'logout' %}">Logout</a>

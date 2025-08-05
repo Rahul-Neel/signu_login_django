@@ -1,0 +1,6 @@
+<h2>Doctor Dashboard</h2>
+<p>Welcome {{ user.first_name }} {{ user.last_name }}</p>
+<p>Email: {{ user.email }}</p>
+<p>City: {{ user.city }}</p>
+<img src="{{ user.profile_picture.url }}" width="150">
+<a href="{% url 'logout' %}">Logout</a>

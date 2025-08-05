@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Apollo Hospital</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #e6f7ff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+            color: #004d66;
+        }
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 12px 25px;
+            background-color: #007399;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        .btn:hover {
+            background-color: #005580;
+        }
+    </style>
+</head>
+<body>
+    <h1>Signup and Login Application</h1>
+    <a href="{% url 'login' %}?type=patient" class="btn">Patient</a>
+    <a href="{% url 'login' %}?type=doctor" class="btn">Doctor</a>
+</body>
+</html>
