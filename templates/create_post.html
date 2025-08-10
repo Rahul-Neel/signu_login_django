@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Create Blog Post</title>
+  <style>
+    body{font-family:Arial;background:#f6f9fb;padding:20px}
+    .box{max-width:800px;margin:30px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,0.05)}
+    input[type=text], textarea, select { width:100%; padding:10px; margin:8px 0; border-radius:4px; border:1px solid #ddd; }
+    button{background:#007399;color:#fff;padding:10px 18px;border:none;border-radius:4px;cursor:pointer}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .btn-logout {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #ff4d4d; /* Red background */
+  color: white;             /* White text */
+  text-decoration: none;    /* Remove underline */
+  border-radius: 5px;       /* Rounded corners */
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.btn-logout:hover {
+  background-color: #e60000; /* Darker red on hover */
+}
+  </style>
+</head>
+<body>
+<div class="box">
+  <h2>Create Blog Post (Doctor)</h2>
+  {% if error %}<p style="color:red">{{ error }}</p>{% endif %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label>Title</label>
+    <input type="text" name="title" required>
+
+    <label>Image (optional)</label>
+    <input type="file" name="image">
+
+    <label>Category</label>
+    <select name="category" required>
+      <option value="">-- Select Category --</option>
+      {% for cat in categories %}
+      <option value="{{ cat.id }}">{{ cat.name }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Summary (short)</label>
+    <textarea name="summary" rows="3" required></textarea>
+
+    <label>Content</label>
+    <textarea name="content" rows="8" required></textarea>
+
+    <label><input type="checkbox" name="is_draft"> Save as Draft</label>
+    <div style="margin-top:12px">
+      <button type="submit">Create Post</button>
+      <a href="{% url 'doctor_dashboard' %}" class="btn-logout">Back</a>
+    </div>
+  </form>
+</div>
+</body>
+</html>

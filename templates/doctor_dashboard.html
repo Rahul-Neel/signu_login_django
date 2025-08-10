@@ -1,6 +1,92 @@
-<h2>Doctor Dashboard</h2>
-<p>Welcome {{ user.first_name }} {{ user.last_name }}</p>
-<p>Email: {{ user.email }}</p>
-<p>City: {{ user.city }}</p>
-<img src="{{ user.profile_picture.url }}" width="150">
-<a href="{% url 'logout' %}">Logout</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: linear-gradient(135deg, #66bb6a, #43a047);
+      color: white;
+      padding: 15px 25px;
+      text-align: center;
+    }
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .profile-header img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #66bb6a;
+    }
+    .profile-details h2 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+    .profile-details p {
+      color: #555;
+      margin: 5px 0;
+    }
+    .btn-logout {
+      background: #e53935;
+      color: white;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 20px;
+    }
+    .btn-logout:hover {
+      background: #c62828;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Doctor Dashboard</h1>
+  </header>
+  
+  <div class="container">
+    <div class="profile-header">
+      {% if user.profile_picture %}
+        <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
+      {% else %}
+        <img src="https://via.placeholder.com/120" alt="Default Avatar">
+      {% endif %}
+      
+      <div class="profile-details">
+        <h2>Welcome Dr. {{ user.first_name }} {{ user.last_name }}</h2>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>State:</strong> {{ user.state }}</p>
+        <p><strong>Pincode:</strong> {{ user.pincode }}</p>
+        
+      </div>
+    </div>
+    <a href="{% url 'create_post' %}" class="btn-logout" style="margin-right: 250px;background-color: aqua; color: black;">Create Blog</a>
+    <a href="{% url 'doctor_posts' %}" class="btn-logout" style="margin-right: 250px; background-color: darkorange; color: black;">My Blogs</a>
+    <a href="{% url 'logout' %}" class="btn-logout">Logout</a>
+  </div>
+</body>
+</html>

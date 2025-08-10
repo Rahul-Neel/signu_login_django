@@ -19,6 +19,7 @@ from django.urls import path
 from accounts import views
 from django.conf import settings
 from django.conf.urls.static import static
+from accounts import views as accounts_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +29,10 @@ urlpatterns = [
     path('patient-dashboard/', views.patient_dashboard, name='patient_dashboard'),
     path('doctor-dashboard/', views.doctor_dashboard, name='doctor_dashboard'),
     path('logout/', views.logout_view, name='logout'),
+    path('blog/create/', accounts_views.create_post_view, name='create_post'),
+    path('blog/my-posts/', accounts_views.doctor_posts, name='doctor_posts'),
+    path('blog/categories/', accounts_views.categories_list, name='categories'),
+    path('blog/category/<slug:slug>/', accounts_views.category_posts, name='category_posts'),
 ]
 
 if settings.DEBUG:

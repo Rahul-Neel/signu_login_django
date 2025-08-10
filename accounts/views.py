@@ -76,3 +76,66 @@ def doctor_dashboard(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+# accounts/views.py (append)
+
+from .models import Category, BlogPost
+from django.contrib import messages
+from django.shortcuts import get_object_or_404
+
+def create_post_view(request):
+    # Only doctors can create posts
+    if not request.user.is_authenticated or request.user.user_type != 'doctor':
+        return redirect('login')
+
+    categories = Category.objects.all()
+    error = None
+
+    if request.method == 'POST':
+        title = request.POST.get('title', '').strip()
+        category_id = request.POST.get('category')
+        summary = request.POST.get('summary', '').strip()
+        content = request.POST.get('content', '').strip()
+        is_draft = True if request.POST.get('is_draft') == 'on' else False
+        image = request.FILES.get('image')
+
+        if not title or not summary or not content or not category_id:
+            error = "Please fill title, category, summary and content."
+        else:
+            category = get_object_or_404(Category, id=category_id)
+            post = BlogPost.objects.create(
+                author=request.user,
+                title=title,
+                category=category,
+                summary=summary,
+                content=content,
+                is_draft=is_draft,
+                image=image
+            )
+            messages.success(request, "Post created successfully.")
+            return redirect('doctor_posts')
+
+    return render(request, 'create_post.html', {'categories': categories, 'error': error})
+
+@login_required
+def doctor_posts(request):
+    if request.user.user_type != 'doctor':
+        return redirect('login')
+    posts = BlogPost.objects.filter(author=request.user)
+    return render(request, 'doctor_posts.html', {'posts': posts})
+
+# views.py
+def categories_list(request):
+    categories = Category.objects.all()
+    for c in categories:
+        c.published_count = c.posts.filter(is_draft=False).count()
+    return render(request, "categories.html", {"categories": categories})
+
+
+def category_posts(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    # show only non-draft posts
+    posts = category.posts.filter(is_draft=False).order_by('-created_at')
+    return render(request, 'category_posts.html', {'category': category, 'posts': posts})
+

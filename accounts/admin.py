@@ -8,3 +8,9 @@ class CustomUserAdmin(UserAdmin):
     )
 
 admin.site.register(CustomUser, CustomUserAdmin)
+
+
+
+from .models import Category, BlogPost
+admin.site.register(Category)
+admin.site.register(BlogPost)

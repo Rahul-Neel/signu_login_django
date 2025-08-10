@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Posts - {{ category.name }}</title>
+  <style>
+    body{font-family:Arial;background:#f6f9fb;padding:20px}
+    .wrap{max-width:900px;margin:30px auto}
+    .post{background:#fff;padding:12px;border-radius:8px;margin-bottom:12px;display:flex;gap:12px}
+    img{width:160px;height:100px;object-fit:cover}
+    .summary{color:#333}
+    .btn-logout {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #ff4d4d; /* Red background */
+  color: white;             /* White text */
+  text-decoration: none;    /* Remove underline */
+  border-radius: 5px;       /* Rounded corners */
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.btn-logout:hover {
+  background-color: #e60000; /* Darker red on hover */
+}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h2>Category: {{ category.name }}</h2>
+  <a href="{% url 'categories' %}" class="btn-logout">Back to Blogs</a>
+  <hr>
+  {% for p in posts %}
+    <div class="post">
+      {% if p.image %}
+        <img src="{{ p.image.url }}" alt="">
+      {% endif %}
+      <div>
+        <h3>{{ p.title }}</h3>
+        <p class="summary">{{ p.summary|truncatewords:15 }}</p>
+        <p><small>By {{ p.author.get_full_name }} | {{ p.created_at|date:"Y-m-d" }}</small></p>
+      </div>
+    </div>
+  {% empty %}
+    <p>No published posts in this category yet.</p>
+  {% endfor %}
+</div>
+</body>
+</html>
